@@ -1,0 +1,168 @@
+package pkg8queens;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
+
+public class Main extends Application 
+{ 
+    Pane root = new Pane();
+    Button btn = new Button("Run Simulation");
+    Rectangle[] mySpaces;
+    int index = 0;
+    
+    @Override
+    public void start(Stage primaryStage) 
+    {
+        Scene scene = new Scene(root, 800, 800);
+        primaryStage.setTitle("8 Queens Simulation");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                if ((i + j) % 2 == 0)
+                {
+                    Rectangle myRectangle = new Rectangle(i*100, j*100, 100, 100 );
+                    root.getChildren().add(myRectangle);
+                }
+            }
+        }
+        
+        btn.setOnAction(new EventHandler<ActionEvent>() 
+        { 
+            @Override
+            public void handle(ActionEvent event) 
+            {
+                root.getChildren().remove(btn);
+            }
+        });
+        btn.setLayoutX(350);
+        btn.setLayoutY(390);
+        root.getChildren().add(btn);
+    }
+
+    public static void main(String[] args) 
+    {
+        launch(args);
+    } 
+}
+
+/*
+public class NQueensBT 
+{
+	public int[][] solution;
+
+	public NQueensBT(int N)//constructor makes 2D array all 0's
+        {
+		solution = new int[N][N];
+		for (int i = 0; i < N; i++) 
+                {
+			for (int j = 0; j < N; j++) 
+                        {
+				solution[i][j] = 0;
+			}
+		}
+	}
+
+	public void solve(int N) 
+        {
+		if(placeQueens(0, N))
+                {
+			//print the result
+			for (int i = 0; i < N; i++) 
+                        {
+				for (int j = 0; j < N; j++) 
+                                {
+					System.out.print(" " + solution[i][j]);
+				}
+				System.out.println();
+			}
+		}
+                else
+                {
+			System.out.println("NO SOLUTION EXISTS");
+		}
+	}
+
+	public boolean placeQueens(int queen, int N) 
+        {
+		// will place the Queens one at a time, for column wise
+		if(queen==N)
+                {
+			//if we are here that means we have solved the problem
+			return true;
+		}
+		for (int row = 0; row < N; row++) 
+                {
+			// check if queen can be placed row,col
+			if (canPlace(solution, row, queen)) 
+                        {
+				// place the queen
+				solution[row][queen] = 1;
+				// solve  for next queen
+				if(placeQueens(queen+1, N))
+                                {
+					return true;
+				}
+				//if we are here that means above placement didn't work
+				//BACKTRACK
+				solution[row][queen]=0;
+			}
+		}
+		//if we are here that means we haven't found solution
+		return false;
+
+	}
+
+	// check if queen can be placed at matrix[row][column]
+	public boolean canPlace(int[][] matrix, int row, int column) 
+        {
+		// since we are filling one column at a time,
+		// we will check if no queen is placed in that particular row
+		for (int i = 0; i < column; i++) 
+                {
+			if (matrix[row][i] == 1) 
+                        {
+				return false;
+			}
+		}
+		// we are filling one column at a time,so we need to check the upper and
+		// diagonal as well
+		// check upper diagonal
+		for (int i = row, j = column; i >= 0 && j >= 0; i--, j--) 
+                {
+			if (matrix[i][j] == 1) 
+                        {
+				return false;
+			}
+		}
+
+		// check lower diagonal
+		for (int i = row, j = column; i < matrix.length && j >= 0; i++, j--) 
+                {
+			if (matrix[i][j] == 1) {
+				return false;
+			}
+		}
+		// if we are here that means we are safe to place Queen at row,column
+		return true;
+	}
+
+	public static void main(String[] args) 
+        {
+		int N = 4;
+		NQueensBT q = new NQueensBT(N);
+		q.solve(N);
+
+	}
+
+}
+*/
